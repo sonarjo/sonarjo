@@ -13,7 +13,7 @@ namespace Tests.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class XmlInputControllerPreventEE : ControllerBase
+    public class XmlInputControllerPreventExternalResolution : ControllerBase
     {
         //
         // use https://www.urlencoder.io/ to encode XML to URL encoded  (if necessary, often works without encoding)
@@ -26,13 +26,17 @@ namespace Tests.Controllers
             // exception is usually not what we want for input validation as it is pretty expensive, is also hard to
             // loalize for real users, and makes it a lot more difficult to validate multiple fields in parallel.
             XmlDocument xd = new XmlDocument();
-            xd.XmlResolver = new PreventEEXMLResolver();
+            xd.XmlResolver = new PreventExternalResolution();
             xd.LoadXml(arg);
+            xd.Validate((e, n) =>
+            {
+                throw new Exception("invalid xml");
+            });
             int t = Int32.Parse(xd.SelectSingleNode("//test/value").InnerText);
             return t;
         }
 
-        private class PreventEEXMLResolver : XmlResolver
+        private class PreventExternalResolution : XmlResolver
         {
             public override object GetEntity(Uri absoluteUri, string role, Type ofObjectToReturn)
             {
