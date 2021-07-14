@@ -16,7 +16,7 @@ namespace Tests.Controllers
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ILogger<WeatherForecastController> _logger; // NOSONAR - TODO: might be needed later
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger)
         {

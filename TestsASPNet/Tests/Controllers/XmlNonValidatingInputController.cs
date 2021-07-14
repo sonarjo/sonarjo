@@ -11,11 +11,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Tests.Controllers
 {
-    public class ExternalEntityEncountered : NotImplementedException { }
-
     [ApiController]
     [Route("[controller]")]
-    public class XmlInputControllerPreventExternalResolution : ControllerBase
+    public class XmlNonValidatingInputController : ControllerBase
     {
         //
         // use https://www.urlencoder.io/ to encode XML to URL encoded  (if necessary, often works without encoding)
@@ -28,23 +26,9 @@ namespace Tests.Controllers
             // exception is usually not what we want for input validation as it is pretty expensive, is also hard to
             // loalize for real users, and makes it a lot more difficult to validate multiple fields in parallel.
             XmlDocument xd = new XmlDocument();
-            xd.XmlResolver = new PreventExternalResolution();
             xd.LoadXml(arg);
-            if (false) // Validate is only for XSDs
-                xd.Validate((e, n) =>
-                {
-                    BadRequest();
-                });
             int t = Int32.Parse(xd.SelectSingleNode("//test/value").InnerText);
             return t;
-        }
-
-        private class PreventExternalResolution : XmlResolver
-        {
-            public override object GetEntity(Uri absoluteUri, string role, Type ofObjectToReturn)
-            {
-                throw new ExternalEntityEncountered();
-            }
         }
     }
 }
