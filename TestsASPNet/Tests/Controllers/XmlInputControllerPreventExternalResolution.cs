@@ -11,6 +11,8 @@ using Microsoft.Extensions.Logging;
 
 namespace Tests.Controllers
 {
+    public class ExternalEntityEncountered : NotImplementedException { }
+
     [ApiController]
     [Route("[controller]")]
     public class XmlInputControllerPreventExternalResolution : ControllerBase
@@ -28,10 +30,11 @@ namespace Tests.Controllers
             XmlDocument xd = new XmlDocument();
             xd.XmlResolver = new PreventExternalResolution();
             xd.LoadXml(arg);
-            xd.Validate((e, n) =>
-            {
-                throw new Exception("invalid xml");
-            });
+            if (false) // Validate is only for XSDs
+                xd.Validate((e, n) =>
+                {
+                    BadRequest();
+                });
             int t = Int32.Parse(xd.SelectSingleNode("//test/value").InnerText);
             return t;
         }
@@ -40,7 +43,7 @@ namespace Tests.Controllers
         {
             public override object GetEntity(Uri absoluteUri, string role, Type ofObjectToReturn)
             {
-                throw new NotImplementedException();
+                throw new ExternalEntityEncountered();
             }
         }
     }
