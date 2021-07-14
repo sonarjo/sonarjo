@@ -28,8 +28,9 @@ namespace Tests.Controllers
             // loalize for real users, and makes it a lot more difficult to validate multiple fields in parallel.
 
             // TODO - what is the correct way to validate SOAP messages
+
             XmlDocument xd = new XmlDocument();
-            xd.Schemas.Add("", ""); // TODO
+            xd.Schemas.Add("", "");
             xd.LoadXml(arg);
             xd.Validate((e, n) =>
                 {
