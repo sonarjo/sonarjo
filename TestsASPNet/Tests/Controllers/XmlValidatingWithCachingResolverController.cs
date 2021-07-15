@@ -54,7 +54,7 @@ namespace Tests.Controllers
         // renamed to challenge Sonar, faster but still unsafe
         class TheResolver : XmlUrlResolver
         {
-            bool enableHttpCaching;
+            readonly bool enableHttpCaching;
             ICredentials credentials;
 
             //resolve resources from cache (if possible) when enableHttpCaching is set to true
