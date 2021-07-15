@@ -23,6 +23,21 @@ namespace UnitTestProject1
             Assert.AreEqual(1995, c.Get("<book ISBN = '1-861001-57-5'> <title>Oberon's Legacy</title><price>19.95</price><misdc>&h;</misdc></book>"));
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(XmlException))] // no such host is known
+        public void GetBadExternalResolver()
+        {
+            var c = new XmlValidatingWithExternalResolverController();
+            Assert.AreEqual(1995, c.Get("<book ISBN = '1-861001-57-5'> <title>Oberon's Legacy</title><price>19.95</price><misdc>&h;</misdc></book>"));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(XmlException))] // forbidden
+        public void GetBadExternalResolverWithDtd()
+        {
+            var c = new XmlValidatingWithExternalResolverController();
+            Assert.AreEqual(1995, c.Get("<!DOCTYPE book SYSTEM 'http://localhost/data/books.dtd'><book ISBN = '1-861001-57-5'> <title>Oberon's Legacy</title><price>19.95</price><misdc>&h;</misdc></book>"));
+        }
     }
 
     [TestClass]
@@ -36,13 +51,13 @@ namespace UnitTestProject1
         public void Novalidation()
         {
             var c = new XmlValidatingInputController();
-            Assert.AreEqual(1995, c.Get("<book ISBN = '1-861001-57-5'> <title>Oberon's Legacy</title><price>19.95</price><misc>&h;</misc></book>");
+            Assert.AreEqual(1995, c.Get("<book ISBN = '1-861001-57-5'> <title>Oberon's Legacy</title><price>19.95</price><misc>&h;</misc></book>"));
         }
         [TestMethod]
         public void GetNoDTD()
         {
             var c = new XmlValidatingInputController();
-            Assert.AreEqual(1995, c.Get("<book ISBN = '1-861001-57-5'> <title>Oberon's Legacy</title><price>19.95</price><misc>&h;</misc></book>");
+            Assert.AreEqual(1995, c.Get("<book ISBN = '1-861001-57-5'> <title>Oberon's Legacy</title><price>19.95</price><misc>&h;</misc></book>"));
         }
 
         [TestMethod]
