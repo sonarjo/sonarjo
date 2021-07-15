@@ -43,7 +43,7 @@ namespace Tests.Controllers
             }
             // summary: an XmlReader with adequate XmlReaderSettings is required, plus a resolver that returns only predefined DTDs.
             // ValidationEventHandler is optional according to https://docs.microsoft.com/en-us/dotnet/api/system.xml.xmlreadersettings.validationeventhandler?view=net-5.0
-            var settings = new XmlReaderSettings { ValidationType = ValidationType.DTD, DtdProcessing = DtdProcessing.Parse, XmlResolver = new PreventExternalResolutionException() };
+            var settings = new XmlReaderSettings { ValidationType = ValidationType.DTD, DtdProcessing = DtdProcessing.Parse, XmlResolver = new LocalResolver() };
             settings.ValidationEventHandler += (s,e) => {
                 BadRequest(); // BadRequest does not stop processing.
                 throw new ValidationFailedException(e.Message, e.Exception);
@@ -55,7 +55,7 @@ namespace Tests.Controllers
             return f;
         }
 
-        private class PreventExternalResolutionException : XmlResolver
+        private class LocalResolver : XmlResolver
         {
             public override object GetEntity(Uri absoluteUri, string role, Type ofObjectToReturn)
             {
