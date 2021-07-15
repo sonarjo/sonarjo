@@ -1,6 +1,6 @@
-- 👋 Hi, I’m @sonarjo
+- 👋 Hi, I’m Joachim
 - 👀 as a security consultant and enthusiast, I’m interested in input validation and how tools (SAST or the like) can support that.
-- 🌱 I’m currently learning XML/DTD and SOAP/XSD validation
+- 🌱 I’m currently learning and testing XML/DTD and SOAP/XSD validation
 - 💞️ I created this repo to support the disucssion @ https://community.sonarsource.com/t/input-validations-in-c-net-web-applications/46309/4
 - 📫 and you are welcome to join that disucssion.
 
