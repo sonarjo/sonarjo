@@ -11,7 +11,7 @@ using ZipSlip;
 namespace Tests.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[zipcontroller]")]
     public class ZipController : ControllerBase
     {
         public ZipController(ILogger<WeatherForecastController> logger)

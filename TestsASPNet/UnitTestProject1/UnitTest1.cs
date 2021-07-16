@@ -113,7 +113,6 @@ namespace UnitTestProject1
             var c = new SoapController();
             var s = new StreamReader(LocalResolver.GetResourceStream("bookstore.xml")).ReadToEnd();
             Assert.AreEqual(899, c.Get(s));
-            // {file:///C:/Users/LindenJo/source/repos/sonarjo/TestsASPNet/UnitTestProject1/bin/Debug/netcoreapp3.1/identifier}
         }
     }
 
@@ -128,7 +127,6 @@ namespace UnitTestProject1
             var s = Path.Combine(p, "books.dtd");
             if (File.Exists(s)) File.Delete(s);
             Assert.AreEqual("Done", c.Get(p, LocalResolver.GetResourceStream("books.zip")));
-            // {file:///C:/Users/LindenJo/source/repos/sonarjo/TestsASPNet/UnitTestProject1/bin/Debug/netcoreapp3.1/identifier}
         }
     }
 }
