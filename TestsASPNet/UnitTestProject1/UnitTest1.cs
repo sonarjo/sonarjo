@@ -116,4 +116,19 @@ namespace UnitTestProject1
             // {file:///C:/Users/LindenJo/source/repos/sonarjo/TestsASPNet/UnitTestProject1/bin/Debug/netcoreapp3.1/identifier}
         }
     }
+
+    [TestClass]
+    public class OtherInputValidations
+    {
+        [TestMethod]
+        public void GetZip()
+        {
+            var c = new ZipController(null);
+            var p = Path.GetTempPath();
+            var s = Path.Combine(p, "books.dtd");
+            if (File.Exists(s)) File.Delete(s);
+            Assert.AreEqual("Done", c.Get(p, LocalResolver.GetResourceStream("books.zip")));
+            // {file:///C:/Users/LindenJo/source/repos/sonarjo/TestsASPNet/UnitTestProject1/bin/Debug/netcoreapp3.1/identifier}
+        }
+    }
 }

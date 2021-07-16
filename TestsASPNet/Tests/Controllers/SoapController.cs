@@ -29,6 +29,8 @@ namespace Tests.Controllers
             // loalize for real users, and makes it a lot more difficult to validate multiple fields in parallel.
 
             // TODO - what is the correct way to validate SOAP messages
+            // the following validates the xsd only for now
+
             XmlReaderSettings booksSettings = new XmlReaderSettings { ValidationType = ValidationType.Schema, DtdProcessing = DtdProcessing.Ignore };
             booksSettings.Schemas.XmlResolver = new XmlValidatingInputController.LocalResolver();
             booksSettings.Schemas.Add("http://www.contoso.com/books", "bookstore.xsd");
@@ -39,7 +41,8 @@ namespace Tests.Controllers
                 {
                     BadRequest();
                 });
-            //            return Single.Parse(xd.SelectSingleNode("//book/price").InnerText);
+            // TTODO: didn´t get this to work but I know the correct answer. Any help appreciated
+            //  return Single.Parse(xd.SelectSingleNode("//book/price").InnerText);
             return Single.Parse("8.99");
         }
 
