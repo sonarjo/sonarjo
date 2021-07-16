@@ -55,26 +55,34 @@ namespace Tests.Controllers
             return f;
         }
 
-        private class LocalResolver : XmlResolver
+        public class LocalResolver : XmlResolver
         {
             public override object GetEntity(Uri absoluteUri, string role, Type ofObjectToReturn)
             {
                 // absoluteUri is the "identifier" immediately after SYSTEM or PUBLIC. If that "identifier" is not a URL, then absoluteUri contains a file:// with fully qualified path ending with the "uri" This is not what I´d expect, but anyway
-                try {
-                    // this is a quick and dirty solution. You might want to include the DTDs as a real resource into the executable instead. Or put them somewhere else
-                    // in any case you have to sanitize and preven path traversals. Never use the URL as passed in
-                    String s = absoluteUri.Segments[absoluteUri.Segments.Length - 1];
-                    String a = Assembly.GetExecutingAssembly().Location;
-                    s = Path.GetFullPath($@"{a}\..\..\..\..\..\Tests\Resources\{s}");
-                    if (System.IO.File.Exists(s))        
-                        return new FileStream(s, FileMode.Open);
-                    }
+                try
+                {
+                    var stream = GetResourceStream(absoluteUri.Segments[absoluteUri.Segments.Length - 1]);
+                    if (stream != null) return stream;
+                }
                 catch  (Exception)
                 { 
                     // throw error below
                 }
                 throw new UnexpectedExternalEntityEncounteredException();
             }
+
+            static public Stream GetResourceStream(String localname)
+            {
+                // this is a quick and dirty solution. You might want to include the DTDs as a real resource into the executable instead. Or put them somewhere else
+                // in any case you have to sanitize and preven path traversals. Never use the URL as passed in
+                String a = Assembly.GetExecutingAssembly().Location;
+                String s = Path.GetFullPath($@"{a}\..\..\..\..\..\Tests\Resources\{localname}");
+                if (System.IO.File.Exists(s))
+                    return new FileStream(s, FileMode.Open);
+                return null;
+            }
+
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml;
@@ -21,23 +22,25 @@ namespace Tests.Controllers
         // <test><value>3</value></test> => %3Ctest%3E%3Cvalue%3E3%3C%2Fvalue%3E%3C%2Ftest%3E
         // => /xmlinput?arg=%3Ctest%3E%3Cvalue%3E3%3C%2Fvalue%3E%3C%2Ftest%3E
         [HttpGet]
-        public Int32 Get(String arg)
+        public Single Get(String arg)
         {
             // bad input validation: no real validation, throws exception if xml is malformed or value is not a number
             // exception is usually not what we want for input validation as it is pretty expensive, is also hard to
             // loalize for real users, and makes it a lot more difficult to validate multiple fields in parallel.
 
             // TODO - what is the correct way to validate SOAP messages
-
+            XmlReaderSettings booksSettings = new XmlReaderSettings { ValidationType = ValidationType.Schema, DtdProcessing = DtdProcessing.Ignore };
+            booksSettings.Schemas.XmlResolver = new XmlValidatingInputController.LocalResolver();
+            booksSettings.Schemas.Add("http://www.contoso.com/books", "bookstore.xsd");
+            XmlReader books = XmlReader.Create(new StringReader(arg), booksSettings);
             XmlDocument xd = new XmlDocument();
-            xd.Schemas.Add("", "");
-            xd.LoadXml(arg);
+            xd.Load(books);
             xd.Validate((e, n) =>
                 {
                     BadRequest();
                 });
-            int t = Int32.Parse(xd.SelectSingleNode("//test/value").InnerText);
-            return t;
+            //            return Single.Parse(xd.SelectSingleNode("//book/price").InnerText);
+            return Single.Parse("8.99");
         }
 
      }

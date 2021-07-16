@@ -1,6 +1,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.IO;
 using System.Xml;
 using Tests.Controllers;
+using static Tests.Controllers.XmlValidatingInputController;
 
 namespace UnitTestProject1
 {
@@ -102,6 +104,15 @@ namespace UnitTestProject1
         {
             var c = new XmlValidatingInputController();
             Assert.AreEqual(1995, c.Get("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<!DOCTYPE book PUBLIC \"Books.dtd\" \"Ingored.dtd\">\r\n<book ISBN = '1-861001-57-5'> <title>Oberon's Legacy</title><price>19.95</price><misc>&h;</misc></book>"));
+            // {file:///C:/Users/LindenJo/source/repos/sonarjo/TestsASPNet/UnitTestProject1/bin/Debug/netcoreapp3.1/identifier}
+        }
+
+        [TestMethod]
+        public void GetXsdBooks()
+        {
+            var c = new SoapController();
+            var s = new StreamReader(LocalResolver.GetResourceStream("bookstore.xml")).ReadToEnd();
+            Assert.AreEqual(899, c.Get(s));
             // {file:///C:/Users/LindenJo/source/repos/sonarjo/TestsASPNet/UnitTestProject1/bin/Debug/netcoreapp3.1/identifier}
         }
     }

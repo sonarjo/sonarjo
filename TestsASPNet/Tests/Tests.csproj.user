@@ -5,4 +5,12 @@
     <Controller_SelectedScaffolderCategoryPath>root/Controller</Controller_SelectedScaffolderCategoryPath>
     <WebStackScaffolding_ControllerDialogWidth>600</WebStackScaffolding_ControllerDialogWidth>
   </PropertyGroup>
+  <ItemGroup>
+    <None Update="Resources\bookstore.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Update="Resources\soap-envelope.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
 </Project>
