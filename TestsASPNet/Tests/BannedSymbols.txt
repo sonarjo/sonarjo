@@ -1,0 +1,3 @@
+T:System.Xml.XmlUrlResolver;Don't use XmlUrlResolver - see https://someurl/banned
+T:System.Xml.XmlDocument;Don't use XmlDocument - see https://someurl/banned
+T:System.Xml.XmlReader;Don't use XmlReader - see https://someurl/banned
