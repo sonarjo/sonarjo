@@ -43,6 +43,7 @@ namespace Tests.Controllers
             }
             // summary: an XmlReader with adequate XmlReaderSettings is required, plus a resolver that returns only predefined DTDs.
             // ValidationEventHandler is optional according to https://docs.microsoft.com/en-us/dotnet/api/system.xml.xmlreadersettings.validationeventhandler?view=net-5.0
+#pragma warning disable RS0030 // Do not used banned APIs - we are using a seucre XmlResolver plus validating the document
             var settings = new XmlReaderSettings { ValidationType = ValidationType.DTD, DtdProcessing = DtdProcessing.Parse, XmlResolver = new LocalResolver() };
             settings.ValidationEventHandler += (s,e) => {
                 BadRequest(); // BadRequest does not stop processing.
@@ -51,6 +52,7 @@ namespace Tests.Controllers
             XmlDocument xd = new XmlDocument();
             var reader = XmlReader.Create(new StringReader(arg), settings);
             xd.Load(reader);
+#pragma warning restore RS0030 // Do not used banned APIs
             Single f = Single.Parse(xd.SelectSingleNode("//book/price").InnerText);
             return f;
         }
